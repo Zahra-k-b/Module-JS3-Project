@@ -3,19 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | Zahra (zahra-k-b)</title>
+    <title>TV Show Project |Elmira-coding</title>
     <link href="style.css" rel="stylesheet" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
-
   <body>
-    <div id="root">
+    <label>
+      <input type="search" id="q" name="q" placeholder="Search term" /> :mag:
+    </label>
+      <template id="film-card">
+        <section class="card">
+          <h3>Film title</h3>
+          <section class="card-body">
+            <img src="">
+           <p data-summery>summery</p>
+          </section>
+        </section>
+      </template>
+    <div id="root"class="card-container">
     </div>
-
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
-
     <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </body>
 </html>
