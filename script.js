@@ -1,9 +1,5 @@
-//You can edit ALL of the code here
-
-
 function setup() {
   const allEpisodes = getAllEpisodes();
-  //console.log(allEpisodes);
   makePageForEpisode(allEpisodes);
 }
 
@@ -22,9 +18,7 @@ function makePageForEpisode(allEpisodes) {
   const template = document.getElementById("film-card");
 
   allEpisodes.forEach((episode) => {
-    // create card is the completing template
     const card = createFilmCard(template, episode);
-    // add to page
     rootElm.appendChild(card);
   });
 
