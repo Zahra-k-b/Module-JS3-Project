@@ -1,8 +1,25 @@
+const allEpisodes = getAllEpisodes();
 function setup() {
-  const allEpisodes = getAllEpisodes();
   makePageForEpisode(allEpisodes);
 }
 
+const searchTerm = document.getElementById("q");
+searchTerm.addEventListener("input", render);
+function render() {
+  
+  let filteredEpisode = allEpisodes.filter((episode) => {
+    return episode.name.includes(searchTerm.value);
+  });
+  clearCard();
+  makePageForEpisode(filteredEpisode);
+ 
+}
+
+function clearCard() {
+  document.querySelectorAll(".card").forEach((card) => {
+    card.remove();
+  });
+}
 
 function createFilmCard(template, episode) {
 const cardNode = template.content.cloneNode(true);
@@ -23,6 +40,7 @@ function makePageForEpisode(allEpisodes) {
   });
 
 }
+
 
 
 window.onload = setup;
