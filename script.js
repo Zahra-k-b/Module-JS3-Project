@@ -1,8 +1,14 @@
 const allEpisodes = getAllEpisodes();
+function getAllEpisodes() {
+  const fetchUrl = "https://api.tvmaze.com/shows/82/episodes";
+  return fetch(fetchUrl).then((data)=>{
+    return data.json();
+  });
+}
+
 function setup() {
   makePageForEpisode(allEpisodes);
 }
-
 const searchTerm = document.getElementById("q");
 searchTerm.addEventListener("input", render);
 function render() {
@@ -41,7 +47,19 @@ function makePageForEpisode(allEpisodes) {
 
 }
 
+function makePageForEpisode() {
+  getAllEpisodes().then((data) => {
+    const allEpisodes =data;
+    const rootElm = document.getElementById("root");
+    const template = document.getElementById("film-card");
+    allEpisodes.forEach((episode) => {
+      const card = createFilmCard(template, episode);
+      rootElm.appendChild(card);
+    });
 
+    });
+  
+}
 
 window.onload = setup;
 
