@@ -1,24 +1,33 @@
-const allEpisodes = getAllEpisodes();
+let allEpisodes = [];
 function getAllEpisodes() {
   const fetchUrl = "https://api.tvmaze.com/shows/82/episodes";
-  return fetch(fetchUrl).then((data)=>{
+  return fetch(fetchUrl).then((data) => {
     return data.json();
   });
 }
-
 function setup() {
-  makePageForEpisode(allEpisodes);
+  getAllEpisodes().then((data) => {
+    allEpisodes = data;
+    makePageForEpisodes(allEpisodes);
+    displayEpisodeNum(allEpisodes, allEpisodes);
+  });
 }
+
 const searchTerm = document.getElementById("q");
 searchTerm.addEventListener("input", render);
 function render() {
-  
+  console.log(searchTerm.value);
   let filteredEpisode = allEpisodes.filter((episode) => {
     return episode.name.includes(searchTerm.value);
   });
   clearCard();
-  makePageForEpisode(filteredEpisode);
- 
+  makePageForEpisodes(filteredEpisode);
+  displayEpisodeNum(allEpisodes, filteredEpisode);
+}
+function displayEpisodeNum(data, filteredEpisode) {
+  const episodeNum = document.querySelector("#episode-num");
+  episodeNum.textContent = filteredEpisode.length + "/" + data.length;
+  console.log(episodeNum);
 }
 
 function clearCard() {
@@ -26,40 +35,26 @@ function clearCard() {
     card.remove();
   });
 }
-
 function createFilmCard(template, episode) {
-const cardNode = template.content.cloneNode(true);
-cardNode.querySelector("h3").textContent = episode.name;
-cardNode.querySelector("img").src = episode.image.medium;
-cardNode.querySelector("p").innerHTML = episode.summary;
-return cardNode;
+  const card = template.content.cloneNode(true);
+  const seasonNumber =
+    "S" +
+    episode.season.toString().padStart(2, "0") +
+    "E" +
+    episode.number.toString().padStart(2, "0");
+  card.querySelector("h3").textContent = episode.name + "-" + seasonNumber;
+  card.querySelector("img").src = episode.image.medium;
+  card.querySelector("p").innerHTML = episode.summary;
+  return card;
 }
 
-function makePageForEpisode(allEpisodes) {
-  
-  const rootElm = document.getElementById("root");
+function makePageForEpisodes(episodes) {
+  const rootElem = document.getElementById("root");
   const template = document.getElementById("film-card");
-
-  allEpisodes.forEach((episode) => {
+  episodes.forEach((episode) => {
     const card = createFilmCard(template, episode);
-    rootElm.appendChild(card);
+    rootElem.appendChild(card);
   });
-
 }
-
-function makePageForEpisode() {
-  getAllEpisodes().then((data) => {
-    const allEpisodes =data;
-    const rootElm = document.getElementById("root");
-    const template = document.getElementById("film-card");
-    allEpisodes.forEach((episode) => {
-      const card = createFilmCard(template, episode);
-      rootElm.appendChild(card);
-    });
-
-    });
-  
-}
-
 window.onload = setup;
 
